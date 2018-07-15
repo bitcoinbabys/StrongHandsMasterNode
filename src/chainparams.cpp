@@ -54,8 +54,9 @@ static void convertSeed6(std::vector<CAddress>& vSeedsOut, const SeedSpec6* data
 // + Contains no strange transactions
 static Checkpoints::MapCheckpoints mapCheckpoints =
       boost::assign::map_list_of
-      (0, 		uint256("0x00000b97ae4a916b25c985de119295e2d466c3022bba1ebd8ca665e4c315fbf9"))
-      (10, 		uint256("0x00000d95ca62b1c990a04a0b09c22d9167d6838ab30b04570ac51d258eb8b7f4"))
+      (0, 	uint256("0x00000b97ae4a916b25c985de119295e2d466c3022bba1ebd8ca665e4c315fbf9"))
+      (1, 	uint256("0x000008b37267a615cc60b344c0391d55c51fe0644542e664a6b0b0674340d7c1"))
+      (10, 	uint256("0x00000d95ca62b1c990a04a0b09c22d9167d6838ab30b04570ac51d258eb8b7f4"))
       (2300, 	uint256("0x00000db206944eb21d2b371f4fd4c9c17704bf780b276a3817e84c0fc18123ac"))
 
 	;
@@ -146,8 +147,17 @@ public:
         // 	BIP44 coin type is from https://github.com/satoshilabs/slips/blob/master/slip-0044.md
         base58Prefixes[EXT_COIN_TYPE] = boost::assign::list_of(0x80)(0x00)(0x00)(0x77).convert_to_container<std::vector<unsigned char> >();
 
-//	vSeeds.push_back(CDNSSeedData("207.148.11.121", "207.148.11.121"));
-
+	vSeeds.push_back(CDNSSeedData("45.32.156.117","45.32.156.117"));
+	vSeeds.push_back(CDNSSeedData("80.240.19.191","80.240.19.191"));
+	vSeeds.push_back(CDNSSeedData("80.240.25.159","80.240.25.159"));
+	vSeeds.push_back(CDNSSeedData("95.179.162.22","95.179.162.22"));
+	vSeeds.push_back(CDNSSeedData("95.179.166.194","95.179.166.194"));
+	vSeeds.push_back(CDNSSeedData("45.77.66.101","45.77.66.101"));
+	vSeeds.push_back(CDNSSeedData("104.234.220.135","104.234.220.135"));
+	vSeeds.push_back(CDNSSeedData("167.160.36.13","167.160.36.13"));
+	vSeeds.push_back(CDNSSeedData("104.200.67.161","104.200.67.161"));
+	vSeeds.push_back(CDNSSeedData("84.200.210.88","84.200.210.88"));
+	vSeeds.push_back(CDNSSeedData("185.243.115.79","185.243.115.79"));
 
 	convertSeed6(vFixedSeeds, pnSeed6_main, ARRAYLEN(pnSeed6_main));
 
