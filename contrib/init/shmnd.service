@@ -1,0 +1,26 @@
+[Unit]
+Description=shmn's distributed currency daemon
+After=network.target
+
+[Service]
+User=shmn
+Group=shmn
+
+Type=forking
+PIDFile=/var/lib/shmnd/shmnd.pid
+
+ExecStart=/usr/bin/shmnd -daemon -pid=/var/lib/shmnd/shmnd.pid \
+          -conf=/etc/shmn/shmn.conf -datadir=/var/lib/shmnd
+
+ExecStop=-/usr/bin/shmn-cli -conf=/etc/shmn/shmn.conf \
+         -datadir=/var/lib/shmnd stop
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

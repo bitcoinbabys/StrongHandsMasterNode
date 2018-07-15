@@ -1,0 +1,26 @@
+# /etc/conf.d/shmnd: config file for /etc/init.d/shmnd
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/shmn/shmn.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/shmnd"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/shmnd.pid"
+
+# Where to write shmnd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/shmnd"
+
+# User and group to own shmnd process
+#BITCOIND_USER="shmn"
+#BITCOIND_GROUP="shmn"
+
+# Path to shmnd executable
+#BITCOIND_BIN="/usr/bin/shmnd"
+
+# Nice value to run shmnd under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

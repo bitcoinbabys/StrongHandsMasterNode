@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=shmn
+Comment=shmn P2P Cryptocurrency
+Comment[fr]=shmn, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=shmn, eşten eşe kriptografik sanal para birimi
+Exec=shmn-qt %u
+Terminal=false
+Type=Application
+Icon=shmn128
+MimeType=x-scheme-handler/shmn;
+Categories=Office;Finance;
