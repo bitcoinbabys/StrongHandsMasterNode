@@ -32,8 +32,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         return Params().ProofOfWorkLimit().GetCompact();
     }
 
-        uint256 bnTargetLimit_start = (~uint256(0) >> 20);
-        uint256 bnTargetLimit = (~uint256(0) >> 24);
+        uint256 bnTargetLimit = (~uint256(0) >> 20);
         int64_t nTargetSpacing = Params().TargetSpacing();
         int64_t nTargetTimespan = Params().TargetTimespan();
 
