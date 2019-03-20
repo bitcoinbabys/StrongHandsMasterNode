@@ -110,10 +110,18 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn, CWallet* pwallet, 
     CMutableTransaction txNew;
     txNew.vin.resize(1);
     txNew.vin[0].prevout.SetNull();
-    txNew.vout.resize(1);
-    txNew.vout[0].scriptPubKey = scriptPubKeyIn;
-	
+	CScript developerfeescriptpubkey = Params().GetScriptForDevFeeDestination();
+
 	CBlockIndex* prev = chainActive.Tip(); 
+    if (fDevFee(prev->nHeight))
+    	{
+    		txNew.vout.resize(2);
+    		txNew.vout[1].scriptPubKey = developerfeescriptpubkey;
+    		txNew.vout[1].nValue = GetDevFee(prev->nHeight);
+    	} else {
+    		txNew.vout.resize(1);
+    	}
+    txNew.vout[0].scriptPubKey = scriptPubKeyIn;
 	txNew.vout[0].nValue = GetBlockValue(prev->nHeight);
 	
     pblock->vtx.push_back(txNew);
