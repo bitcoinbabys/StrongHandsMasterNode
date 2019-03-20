@@ -3098,7 +3098,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 
     if (block.IsProofOfStake()) {
         // Coinbase output should be empty if proof-of-stake block. DevFee creates 2nd coinbase tx
-        if ((block.vtx[0].vout.size() != 1) && (block.vtx[0].vout.size() != 2) || !block.vtx[0].vout[0].IsEmpty())
+        if (((block.vtx[0].vout.size() != 1) && (block.vtx[0].vout.size() != 2)) || !block.vtx[0].vout[0].IsEmpty())
             return state.DoS(100, error("CheckBlock() (devFee) : coinbase output not empty for proof-of-stake block"));
 //        if ((vtx[0].vout.size() != 1) && (vtx[0].vout[1].nValue != nDevFee))
 //        	            return state.DoS(100, error("CheckBlock() (devfee): coinbase does not pay enough to dev addresss"));
