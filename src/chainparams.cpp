@@ -117,7 +117,7 @@ public:
         nMaturity = 60;
         nMasternodeCountDrift = 20;
         nMasternodeCollateralLimit = 1000;
-        nModifierUpdateBlock = 1;
+        nRewardUpgradeBlock = 150000; // in conjunction with spork 14, update to include dev fund payments
         nMaxMoneyOut = 21000000 * COIN;
 
         const char* pszTimestamp = "Switzerland chooses gold bullion over paper wealth backed by US dollar";
