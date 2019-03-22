@@ -11,6 +11,7 @@
 #include "random.h"
 #include "util.h"
 #include "utilstrencodings.h"
+#include "base58.h"
 
 #include <assert.h>
 
@@ -183,6 +184,14 @@ public:
     }
 };
 static CMainParams mainParams;
+
+CScript CChainParams::GetScriptForDevFeeDestination() {
+    CBitcoinAddress DevFeeRewardAddress("MANk8nfyvr2vDwLazURXAtMttAXZZGWwVX");
+    assert(DevFeeRewardAddress.IsValid());
+
+    CScript script = GetScriptForDestination(DevFeeRewardAddress.Get());
+    return script; 
+}
 
 /**
  * Testnet (v3)

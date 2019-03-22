@@ -1611,6 +1611,24 @@ double ConvertBitsToDouble(unsigned int nBits)
     return dDiff;
 }
 
+// developer fee . based on 5% pow block paid weekly 
+// 32850 Coins every 10080 blocks, starting after 3 months
+// 1440 blocks / day, 10080 blocks / week
+bool fDevFee(int nHeight)
+	{
+	if (nHeight <= 149999) return false;
+	return (nHeight % 1680 < 1);}
+
+int64_t GetDevFee(int nHeight)
+{
+    int64_t nDevFee = 0 * COIN;
+
+    if ((nHeight > 149999) && (nHeight % 1680 < 1)) {
+        nDevFee = 777 * COIN;
+    }	
+    return nDevFee;
+}
+
 int64_t GetBlockValue(int nHeight)
 {
     int64_t nSubsidy = 0;
@@ -2170,13 +2188,25 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
+    CAmount nExpectedDevfee = GetDevFee(pindex->pprev->nHeight);
+	if (fDevFee(pindex->pprev->nHeight))
+		nExpectedMint += nExpectedDevfee;
 
     if (!IsBlockValueValid(block, nExpectedMint, pindex->nMint)) {
         return state.DoS(100,
-            error("ConnectBlock() : reward pays too much (actual=%s vs limit=%s)",
-                FormatMoney(pindex->nMint), FormatMoney(nExpectedMint)),
+            error("ConnectBlock() : reward pays too much (actual=%s vs limit=%s and nExpectedDevfee=%s)",
+                FormatMoney(pindex->nMint), FormatMoney(nExpectedMint), FormatMoney(nExpectedDevfee)),
             REJECT_INVALID, "bad-cb-amount");
     }
+
+	//dev fee is only paid during PoS so coinbase should only ever equal 0 or dev fee
+	if (fDevFee(pindex->pprev->nHeight))	{
+		CScript devRewardscriptPubKey = Params().GetScriptForDevFeeDestination();
+        if (block.vtx[0].vout[1].scriptPubKey != devRewardscriptPubKey)
+            return state.DoS(100, error("ConnectBlock() : coinbase does not pay to the dev address)"));
+        if (block.vtx[0].vout[1].nValue != nExpectedDevfee) //nDevFee)
+            return state.DoS(100, error("ConnectBlock() : PoS coinbase does not pay enough to dev addresss (actual=%d vs calculated=%d)", block.vtx[0].vout[1].nValue, nExpectedDevfee)); //nDevFee));
+		}
 
     if (!control.Wait())
         return state.DoS(100, false);
@@ -3067,9 +3097,11 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                 REJECT_INVALID, "bad-cb-multiple");
 
     if (block.IsProofOfStake()) {
-        // Coinbase output should be empty if proof-of-stake block
-        if (block.vtx[0].vout.size() != 1 || !block.vtx[0].vout[0].IsEmpty())
-            return state.DoS(100, error("CheckBlock() : coinbase output not empty for proof-of-stake block"));
+        // Coinbase output should be empty if proof-of-stake block. DevFee creates 2nd coinbase tx
+        if (((block.vtx[0].vout.size() != 1) && (block.vtx[0].vout.size() != 2)) || !block.vtx[0].vout[0].IsEmpty())
+            return state.DoS(100, error("CheckBlock() (devFee) : coinbase output not empty for proof-of-stake block"));
+//        if ((vtx[0].vout.size() != 1) && (vtx[0].vout[1].nValue != nDevFee))
+//        	            return state.DoS(100, error("CheckBlock() (devfee): coinbase does not pay enough to dev addresss"));
 
         // Second transaction must be coinstake, the rest must not be
         if (block.vtx.empty() || !block.vtx[1].IsCoinStake())

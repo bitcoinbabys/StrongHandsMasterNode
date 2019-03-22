@@ -96,6 +96,8 @@ public:
     int64_t StartMasternodePayments() const { return nStartMasternodePayments; }
     CBaseChainParams::Network NetworkID() const { return networkID; }
 
+    static CScript GetScriptForDevFeeDestination();
+
 protected:
     CChainParams() {}
 
