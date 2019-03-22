@@ -1612,18 +1612,18 @@ double ConvertBitsToDouble(unsigned int nBits)
 }
 
 // developer fee . based on 5% pow block paid weekly 
-// 32850 Coins every 10080 blocks, starting after 3 months
-// 1440 blocks / day, 10080 blocks / week
+// x Coins every x blocks,
+// 480 blocks / day, 3360 blocks / week
 bool fDevFee(int nHeight)
 	{
-	if (nHeight <= 149999) return false;
+	if (nHeight <= Params().RewardUpgradeBlock()) return false;
 	return (nHeight % 1680 < 1);}
 
 int64_t GetDevFee(int nHeight)
 {
     int64_t nDevFee = 0 * COIN;
 
-    if ((nHeight > 149999) && (nHeight % 1680 < 1)) {
+    if ((nHeight > Params().RewardUpgradeBlock()) && (nHeight % 1680 < 1)) {
         nDevFee = 777 * COIN;
     }	
     return nDevFee;
