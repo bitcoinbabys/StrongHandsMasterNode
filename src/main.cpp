@@ -1611,7 +1611,8 @@ double ConvertBitsToDouble(unsigned int nBits)
     return dDiff;
 }
 
-// developer fee . based on 5% pow block paid weekly 
+// developer fee . starts after block 142000
+// first year based on 5% pow block paid weekly, 2nd year 3%, after 1%.
 // x Coins every x blocks,
 // 480 blocks / day, 3360 blocks / week
 bool fDevFee(int nHeight)
@@ -1624,7 +1625,13 @@ int64_t GetDevFee(int nHeight)
     int64_t nDevFee = 0 * COIN;
 
     if ((nHeight > Params().RewardUpgradeBlock()) && (nHeight % 1680 < 1)) {
-        nDevFee = 777 * COIN;
+        if (nHeight <= 316720) {
+        	nDevFee = 840 * COIN;
+        } else if (nHeight > 316720 && nHeight <= 491440) {
+        	nDevFee = 504 * COIN;        
+        } else if (nHeight > 491440) {
+        	nDevFee = 168 * COIN;
+        }
     }	
     return nDevFee;
 }
@@ -5384,8 +5391,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 int ActiveProtocol()
 {
 
-    // SPORK_14 is the upgrade reward structure to include Dev Fund payments
-    // messages because it's not in their code
+    // SPORK_14 is used for protocol 70812, upgrade reward structure to include Dev Fund payments
 
     if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT)) {
         if (chainActive.Tip()->nHeight >= Params().RewardUpgradeBlock())
