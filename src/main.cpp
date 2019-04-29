@@ -1618,18 +1618,18 @@ double ConvertBitsToDouble(unsigned int nBits)
 bool fDevFee(int nHeight)
 	{
 	if (nHeight <= Params().RewardUpgradeBlock()) return false;
-	return (nHeight % 1680 < 1);}
+	return (nHeight % 3360 < 1);}
 
 int64_t GetDevFee(int nHeight)
 {
     int64_t nDevFee = 0 * COIN;
 
-    if ((nHeight > Params().RewardUpgradeBlock()) && (nHeight % 1680 < 1)) {
-        if (nHeight <= 316720) {
+    if ((nHeight > Params().RewardUpgradeBlock()) && (nHeight % 3360 < 1)) {
+        if (nHeight <= 327700) {
         	nDevFee = 840 * COIN;
-        } else if (nHeight > 316720 && nHeight <= 491440) {
+        } else if (nHeight > 327700 && nHeight <= 502900) {
         	nDevFee = 504 * COIN;        
-        } else if (nHeight > 491440) {
+        } else if (nHeight > 502900) {
         	nDevFee = 168 * COIN;
         }
     }	

@@ -59,16 +59,17 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
       (1, 	uint256("0x000008b37267a615cc60b344c0391d55c51fe0644542e664a6b0b0674340d7c1"))
       (10, 	uint256("0x00000d95ca62b1c990a04a0b09c22d9167d6838ab30b04570ac51d258eb8b7f4"))
       (2300, 	uint256("0x00000db206944eb21d2b371f4fd4c9c17704bf780b276a3817e84c0fc18123ac"))
+      (138900, 	uint256("0x8b352f67df20f18aea9e40ecc222f4f8fc10cece3aff02d67b5e98db8ac92a36"))
 
 	;
 
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
 //    1529048324, // * UNIX timestamp of genesis block
-    1530794495, // * UNIX timestamp of last checkpoint block
-    8478,    // * total number of transactions between genesis and last checkpoint
+    1556509375, // * UNIX timestamp of last checkpoint block
+    333064,    // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
-    419        // * estimated number of transactions per day after checkpoint
+    1047        // * estimated number of transactions per day after checkpoint
 };
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
@@ -118,7 +119,7 @@ public:
         nMaturity = 60;
         nMasternodeCountDrift = 20;
         nMasternodeCollateralLimit = 1000;
-        nRewardUpgradeBlock = 150000; // in conjunction with spork 14, update to include dev fund payments
+        nRewardUpgradeBlock = 152500; // in conjunction with spork 14, update to include dev fund payments
         nMaxMoneyOut = 21000000 * COIN;
 
         const char* pszTimestamp = "Switzerland chooses gold bullion over paper wealth backed by US dollar";
@@ -186,7 +187,7 @@ public:
 static CMainParams mainParams;
 
 CScript CChainParams::GetScriptForDevFeeDestination() {
-    CBitcoinAddress DevFeeRewardAddress("MANk8nfyvr2vDwLazURXAtMttAXZZGWwVX");
+    CBitcoinAddress DevFeeRewardAddress("5Syw8bLeW3KEpzHMrC5iQVuRixeKozuUqF");
     assert(DevFeeRewardAddress.IsValid());
 
     CScript script = GetScriptForDestination(DevFeeRewardAddress.Get());
